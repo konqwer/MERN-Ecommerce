@@ -24,7 +24,6 @@ exports.postSignup = [
     .withMessage('Passport must be at least 6 symbols'),
   (req, res, next) => {
     const errors = validationResult(req).errors;
-    console.log(errors);
     if (errors.length) {
       throw Error(errors[0].msg);
     }
