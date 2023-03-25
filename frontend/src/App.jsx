@@ -5,6 +5,9 @@ import useUser from './hooks/useUser';
 import Products from './pages/Products';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import AddProduct from './pages/AddProduct';
+import Cart from './pages/Cart';
+import Product from './pages/Product';
 
 const App = () => {
   const { user, isLoading, logout } = useUser();
@@ -24,6 +27,15 @@ const App = () => {
               path="/signup"
               element={user ? <Navigate to="/" /> : <Signup />}
             />
+            <Route
+              path="/addProduct"
+              element={user ? <AddProduct /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/cart"
+              element={user ? <Cart /> : <Navigate to="/" />}
+            />
+            <Route path=":productName" element={<Product />} />
           </Routes>
         </div>
       </div>

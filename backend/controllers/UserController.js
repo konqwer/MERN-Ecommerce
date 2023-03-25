@@ -33,7 +33,8 @@ exports.postSignup = [
       .then(password => {
         return User.create({
           email,
-          password
+          password,
+          cart: { items: [], total: 0 }
         });
       })
       .then(user => res.json({ token: createToken(user._id) }))
@@ -72,3 +73,18 @@ exports.postLogin = [
       .catch(next);
   }
 ];
+
+exports.patchCart = (req, res, next) => {
+  const { productId } = req.params;
+  const quantity = req.query.quantity || '1';
+  req.user
+    .patchCart(productId, +quantity)
+    .then(user => res.json(user))
+    .catch(next);
+};
+exports.resetCart = (req, res, next) => {
+  req.user
+    .resetCart()
+    .then(user => res.json(user))
+    .catch(next);
+};

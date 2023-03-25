@@ -25,7 +25,7 @@ const Login = () => {
         </label>
         <input
           id="email"
-          className="mb-6 border-b-4 border-slate-300 bg-transparent"
+          className="mb-6 border-b-4 border-slate-300 bg-transparent focus:border-slate-400 focus:outline-none"
         />
 
         <label className="text-2xl font-semibold" htmlFor="password">
@@ -33,10 +33,10 @@ const Login = () => {
         </label>
         <input
           id="password"
-          className="mb-6 border-b-4 border-slate-300 bg-transparent"
+          className="mb-6 border-b-4 border-slate-300 bg-transparent focus:border-slate-400 focus:outline-none"
         />
         {error && (
-          <div className="mb-6 rounded-sm border border-red-300 bg-red-200 p-2">
+          <div className="mb-6 animate-slideBottom rounded-sm border border-red-300 bg-red-200 p-2">
             {error.message}
           </div>
         )}
