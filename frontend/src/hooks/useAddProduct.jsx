@@ -33,7 +33,8 @@ const useAddProducts = () => {
     },
     {
       onSuccess: () => {
-        //queryClient.invalidateQueries('products');
+        queryClient.invalidateQueries('products');
+        queryClient.invalidateQueries('myProducts');
         navigate('/');
       }
     }

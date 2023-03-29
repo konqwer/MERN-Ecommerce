@@ -1,14 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import useProducts from '../hooks/useProducts';
 import ProductItem from '../components/ProductItem';
 import PageController from '../components/PageController';
+import LoadingPage from './LoadingPage';
+import ErrorPage from './ErrorPage';
+import NoProductsFoundPage from './NoProductsFoundPage';
 
 const Products = () => {
   const [page, setPage] = useState(1);
   const { products, maxPages, isLoading, error, isFetching } =
     useProducts(page);
 
-  console.log(products, isFetching);
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+  if (error) {
+    return <ErrorPage />;
+  }
+  if (!isLoading && products.length === 0) {
+    return <NoProductsFoundPage />;
+  }
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -16,7 +27,9 @@ const Products = () => {
         {!isFetching &&
           products.map(product => <ProductItem product={product} />)}
       </div>
-      <PageController page={page} maxPages={maxPages} onSetPage={setPage} />
+      {maxPages > 1 && (
+        <PageController page={page} maxPages={maxPages} onSetPage={setPage} />
+      )}
     </div>
   );
 };

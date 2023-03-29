@@ -8,6 +8,7 @@ import Signup from './pages/Signup';
 import AddProduct from './pages/AddProduct';
 import Cart from './pages/Cart';
 import Product from './pages/Product';
+import MyProducts from './pages/MyProducts';
 
 const App = () => {
   const { user, isLoading, logout } = useUser();
@@ -26,6 +27,10 @@ const App = () => {
             <Route
               path="/signup"
               element={user ? <Navigate to="/" /> : <Signup />}
+            />
+            <Route
+              path="/myProducts"
+              element={user ? <MyProducts /> : <Navigate to="/" />}
             />
             <Route
               path="/addProduct"

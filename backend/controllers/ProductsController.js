@@ -5,20 +5,36 @@ const multerSaveImage = require('../middleware/multerSaveImage');
 
 const getProducts = (req, res, next) => {
   const page = req.query.page || 1;
-  const perpage = req.query.perpage || 1;
+  const perpage = req.query.perpage || 10;
 
   let products;
   Product.find()
-    .skip(page - 1 * perpage)
+    .skip((page - 1) * perpage)
     .limit(perpage)
     .select('-description')
     .then(tempproducts => {
       products = tempproducts;
       return Product.count();
     })
-    .then(count =>
-      res.json({ products, maxPages: Math.floor(count / perpage) })
-    )
+    .then(count => res.json({ products, maxPages: Math.ceil(count / perpage) }))
+    .catch(next);
+};
+
+const getMyProducts = (req, res, next) => {
+  const page = req.query.page || 1;
+  const perpage = req.query.perpage || 10;
+
+  console.log(req.user);
+  let products;
+  Product.find({ user: req.user._id })
+    .skip((page - 1) * perpage)
+    .limit(perpage)
+    .select('-description')
+    .then(tempproducts => {
+      products = tempproducts;
+      return Product.count();
+    })
+    .then(count => res.json({ products, maxPages: Math.ceil(count / perpage) }))
     .catch(next);
 };
 
@@ -60,4 +76,4 @@ const postProduct = [
   }
 ];
 
-module.exports = { getProduct, getProducts, postProduct };
+module.exports = { getProduct, getProducts, postProduct, getMyProducts };

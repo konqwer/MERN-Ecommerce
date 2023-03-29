@@ -4,6 +4,7 @@ import usePatchCart from '../hooks/usePatchCart';
 import useProduct from '../hooks/useProduct';
 import Button from '../UI/Button';
 import Image from '../UI/Image';
+import LoadingPage from './LoadingPage';
 import Page404 from './Page404';
 
 const Product = () => {
@@ -11,8 +12,9 @@ const Product = () => {
   const { product, isLoading, error } = useProduct(productName);
   const { patch } = usePatchCart();
 
+  console.log(product, isLoading, error);
   if (isLoading) {
-    return;
+    return <LoadingPage />;
   }
   if (error) {
     return <Page404 />;
