@@ -12,11 +12,9 @@ const Products = () => {
 
   if (isLoading) {
     return <LoadingPage />;
-  }
-  if (error) {
-    return <ErrorPage />;
-  }
-  if (!isLoading && products.length === 0) {
+  } else if (error) {
+    return <ErrorPage error={error.message} />;
+  } else if (!isLoading && products.length === 0) {
     return <NoProductsFoundPage />;
   }
 
@@ -24,7 +22,7 @@ const Products = () => {
     <div className="flex h-full w-full flex-col">
       <div className="grid grow grid-cols-[repeat(auto-fill,minmax(150px,1fr))] content-start gap-2">
         {products.map(product => (
-          <ProductItem product={product} />
+          <ProductItem key={product.name} product={product} />
         ))}
       </div>
       {maxPages > 1 && (

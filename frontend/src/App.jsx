@@ -9,6 +9,7 @@ import AddProduct from './pages/AddProduct';
 import Cart from './pages/Cart';
 import Product from './pages/Product';
 import MyProducts from './pages/MyProducts';
+import EditProduct from './pages/EditProduct';
 
 const App = () => {
   const { user, isLoading, logout } = useUser();
@@ -37,10 +38,14 @@ const App = () => {
               element={user ? <AddProduct /> : <Navigate to="/" />}
             />
             <Route
+              path="/editProduct/:productId"
+              element={user ? <EditProduct /> : <Navigate to="/" />}
+            />
+            <Route
               path="/cart"
               element={user ? <Cart /> : <Navigate to="/" />}
             />
-            <Route path=":productName" element={<Product />} />
+            <Route path=":productId" element={<Product />} />
           </Routes>
         </div>
       </div>

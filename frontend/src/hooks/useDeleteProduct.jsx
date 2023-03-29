@@ -1,28 +1,21 @@
 import { useMutation, useQueryClient } from 'react-query';
-import { useNavigate } from 'react-router-dom';
 import apiUrl from '../constants/apiUrl';
 
-const useAddProduct = () => {
+const useDeleteProduct = () => {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
 
   const {
-    mutate: add,
+    mutate: deletee,
     data,
     error,
     isLoading
   } = useMutation(
-    async productData => {
-      const formData = new FormData();
-      Object.entries(productData).forEach(entry => {
-        formData.append(entry[0], entry[1]);
-      });
-      const res = await fetch(apiUrl + 'api/products/', {
+    async productId => {
+      const res = await fetch(apiUrl + 'api/products/' + productId, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         },
-        method: 'POST',
-        body: formData
+        method: 'DELETE'
       });
       const json = await res.json();
       if (!res.ok) {
@@ -36,12 +29,11 @@ const useAddProduct = () => {
       onSuccess: () => {
         queryClient.invalidateQueries('products');
         queryClient.invalidateQueries('myProducts');
-        navigate('/myProducts');
       }
     }
   );
 
-  return { add, data, error, isLoading };
+  return { deletee, data, error, isLoading };
 };
 
-export default useAddProduct;
+export default useDeleteProduct;

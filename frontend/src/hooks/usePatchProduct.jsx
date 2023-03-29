@@ -2,26 +2,26 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import apiUrl from '../constants/apiUrl';
 
-const useAddProduct = () => {
+const usePatchProduct = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const {
-    mutate: add,
+    mutate: patch,
     data,
     error,
     isLoading
   } = useMutation(
-    async productData => {
+    async ({ productId, productData }) => {
       const formData = new FormData();
       Object.entries(productData).forEach(entry => {
         formData.append(entry[0], entry[1]);
       });
-      const res = await fetch(apiUrl + 'api/products/', {
+      const res = await fetch(apiUrl + 'api/products/' + productId, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         },
-        method: 'POST',
+        method: 'PATCH',
         body: formData
       });
       const json = await res.json();
@@ -41,7 +41,7 @@ const useAddProduct = () => {
     }
   );
 
-  return { add, data, error, isLoading };
+  return { patch, data, error, isLoading };
 };
 
-export default useAddProduct;
+export default usePatchProduct;

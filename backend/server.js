@@ -10,6 +10,11 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(cors({ origin: '*' }));
 
+app.use((req, res, next) => {
+  console.log(req.method + req.path);
+  next();
+});
+
 // routes
 app.use('/api/user', UserRoutes);
 app.use('/api/products', ProductsRoutes);

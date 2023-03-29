@@ -2,12 +2,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiUrl from '../constants/apiUrl';
 import usePatchCart from '../hooks/usePatchCart';
-import useUser from '../hooks/useUser';
 import Image from '../UI/Image';
 
 const ProductItem = ({ product }) => {
   const { patch } = usePatchCart();
-  const { user } = useUser();
   const navigate = useNavigate();
 
   return (
@@ -17,12 +15,15 @@ const ProductItem = ({ product }) => {
     >
       <Image className="w-full" src={apiUrl + 'images/' + product.image} />
       <div className="flex items-center justify-between p-2">
-        <div>
-          <h1 className="text-xl font-semibold">{product.name}</h1>
-          <h1>${product.price}</h1>
+        <div className="overflow-hidden">
+          <h1 className="text-2-rows text-xl font-semibold">{product.name}</h1>
+          <h1 className="overflow-hidden overflow-ellipsis">
+            ${product.price}
+          </h1>
         </div>
         <div>
           <button
+            className="hover:animate-wiggle hover:text-green-600"
             onClick={e => {
               e.stopPropagation();
               patch({ productId: product._id });
