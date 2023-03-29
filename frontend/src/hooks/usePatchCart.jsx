@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import apiUrl from '../constants/apiUrl';
 
 const usePatchCart = () => {
   const queryClient = useQueryClient();
@@ -12,10 +13,7 @@ const usePatchCart = () => {
   } = useMutation(
     async ({ productId, quantity = 1 }) => {
       const res = await fetch(
-        'http://localhost:4000/api/user/cart/' +
-          productId +
-          '?quantity=' +
-          quantity,
+        apiUrl + 'api/user/cart/' + productId + '?quantity=' + quantity,
         {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token')

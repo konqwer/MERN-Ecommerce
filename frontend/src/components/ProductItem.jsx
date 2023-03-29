@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import apiUrl from '../constants/apiUrl';
 import usePatchCart from '../hooks/usePatchCart';
 import useUser from '../hooks/useUser';
 import Image from '../UI/Image';
@@ -14,7 +15,7 @@ const ProductItem = ({ product }) => {
       onClick={e => navigate('/' + product._id)}
       className="h-min overflow-hidden rounded-sm border border-slate-300"
     >
-      <Image className="w-full" src={product.image} />
+      <Image className="w-full" src={apiUrl + 'images/' + product.image} />
       <div className="flex items-center justify-between p-2">
         <div>
           <h1 className="text-xl font-semibold">{product.name}</h1>

@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from 'react-query';
+import apiUrl from '../constants/apiUrl';
 
 const useUser = () => {
   const {
@@ -12,7 +13,7 @@ const useUser = () => {
       if (!token) {
         return null;
       }
-      const res = await fetch('http://localhost:4000/api/user/', {
+      const res = await fetch(apiUrl + 'api/user/', {
         headers: {
           Authorization: 'Bearer ' + token
         }

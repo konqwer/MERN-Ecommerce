@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
+import apiUrl from '../constants/apiUrl';
 
 const useSignup = () => {
   const queryClient = useQueryClient();
@@ -13,7 +14,7 @@ const useSignup = () => {
         throw Error('Passwords must match');
       }
       delete userData.confirmPassword;
-      const res = await fetch('http://localhost:4000/api/user/signup', {
+      const res = await fetch(apiUrl + 'api/user/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

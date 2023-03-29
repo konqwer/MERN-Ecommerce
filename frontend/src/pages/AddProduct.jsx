@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAddProducts from '../hooks/useAddProduct';
 import Button from '../UI/Button';
+import Image from '../UI/Image';
 
 const AddProduct = () => {
   const [image, setImage] = useState(null);
@@ -50,7 +51,7 @@ const AddProduct = () => {
                 image ? 'hover:after:flex' : ''
               }`}
             >
-              {image ? <img src={image}></img> : 'Upload image'}
+              {image ? <Image src={image}></Image> : 'Upload image'}
             </label>
             <input
               onChange={setImageHandler}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import apiUrl from '../constants/apiUrl';
 import usePatchCart from '../hooks/usePatchCart';
 import useProduct from '../hooks/useProduct';
 import useUser from '../hooks/useUser';
@@ -21,7 +22,7 @@ const CartItem = ({ cartItem }) => {
   return (
     <div className="flex items-center gap-2 rounded-sm border border-slate-300 p-2 text-lg">
       <div className="w-16">
-        <Image className="w-full" src={product.image} />
+        <Image className="w-full" src={apiUrl + 'images/' + product.image} />
       </div>
 
       <h1 className="grow font-semibold">{product.name}</h1>

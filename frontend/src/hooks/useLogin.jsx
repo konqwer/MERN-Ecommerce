@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
+import apiUrl from '../constants/apiUrl';
 
 const useLogin = () => {
   const queryClient = useQueryClient();
@@ -11,7 +12,7 @@ const useLogin = () => {
     isLoading
   } = useMutation(
     async userData => {
-      const res = await fetch('http://localhost:4000/api/user/login', {
+      const res = await fetch(apiUrl + 'api/user/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

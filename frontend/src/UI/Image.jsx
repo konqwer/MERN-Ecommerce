@@ -5,7 +5,7 @@ const Image = ({ src, className }) => {
     <div
       className={`flex aspect-square items-center justify-center bg-slate-200 ${className}`}
     >
-      <img className="max-h-full" src={`http://localhost:4000/images/` + src} />
+      <img className="max-h-full" src={src} />
     </div>
   );
 };

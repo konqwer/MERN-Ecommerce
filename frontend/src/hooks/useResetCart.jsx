@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from 'react-query';
+import apiUrl from '../constants/apiUrl';
 
 const useResetCart = () => {
   const queryClient = useQueryClient();
@@ -10,7 +11,7 @@ const useResetCart = () => {
     isLoading
   } = useMutation(
     async () => {
-      const res = await fetch('http://localhost:4000/api/user/cart/reset', {
+      const res = await fetch(apiUrl + 'api/user/cart/reset', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         },

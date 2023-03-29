@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import apiUrl from '../constants/apiUrl';
 
 const useProduct = productId => {
   const {
@@ -6,7 +7,7 @@ const useProduct = productId => {
     isLoading,
     error
   } = useQuery(['products', productId], async () => {
-    const res = await fetch('http://localhost:4000/api/products/' + productId);
+    const res = await fetch(apiUrl + 'api/products/' + productId);
     const json = await res.json();
     if (!res.ok) {
       throw Error(json.message);

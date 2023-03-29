@@ -8,8 +8,7 @@ import NoProductsFoundPage from './NoProductsFoundPage';
 
 const Products = () => {
   const [page, setPage] = useState(1);
-  const { products, maxPages, isLoading, error, isFetching } =
-    useProducts(page);
+  const { products, maxPages, isLoading, error } = useProducts(page);
 
   if (isLoading) {
     return <LoadingPage />;
@@ -24,8 +23,9 @@ const Products = () => {
   return (
     <div className="flex h-full w-full flex-col">
       <div className="grid grow grid-cols-[repeat(auto-fill,minmax(150px,1fr))] content-start gap-2">
-        {!isFetching &&
-          products.map(product => <ProductItem product={product} />)}
+        {products.map(product => (
+          <ProductItem product={product} />
+        ))}
       </div>
       {maxPages > 1 && (
         <PageController page={page} maxPages={maxPages} onSetPage={setPage} />

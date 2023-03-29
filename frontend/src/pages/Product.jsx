@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import apiUrl from '../constants/apiUrl';
 import usePatchCart from '../hooks/usePatchCart';
 import useProduct from '../hooks/useProduct';
 import Button from '../UI/Button';
@@ -24,7 +25,7 @@ const Product = () => {
     <div className="flex h-full items-center justify-center">
       <div className="flex w-[800px] items-start gap-6 rounded-sm border border-slate-300 p-4">
         <div className="w-1/2">
-          <Image className="w-full" src={product.image} />
+          <Image className="w-full" src={apiUrl + 'images/' + product.image} />
         </div>
         <div className="flex flex-col p-2">
           <h1 className="mb-4 text-4xl font-semibold ">{product.name}</h1>

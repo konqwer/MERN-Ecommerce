@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import apiUrl from '../constants/apiUrl';
 
 const useAddProducts = () => {
   const queryClient = useQueryClient();
@@ -16,7 +17,7 @@ const useAddProducts = () => {
       Object.entries(productData).forEach(entry => {
         formData.append(entry[0], entry[1]);
       });
-      const res = await fetch('http://localhost:4000/api/products/', {
+      const res = await fetch(apiUrl + 'api/products/', {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token')
         },
