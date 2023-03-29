@@ -33,6 +33,7 @@ const usePatchCart = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('user');
+        queryClient.invalidateQueries('cart');
       }
     }
   );

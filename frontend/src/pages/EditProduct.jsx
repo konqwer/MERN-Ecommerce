@@ -15,9 +15,8 @@ const EditProduct = () => {
   const [image, setImage] = useState(null);
   const { user } = useUser();
   const navigate = useNavigate();
-  const { patch, isLoading: sds, error } = usePatchProduct();
+  const { patch, error } = usePatchProduct();
 
-  console.log(sds, error);
   if (isLoading) {
     return <LoadingPage />;
   } else if (productIdError) {
@@ -29,7 +28,6 @@ const EditProduct = () => {
   const submitHandler = async e => {
     e.preventDefault();
     const { name, image, price, description } = e.target;
-    console.log(image.files);
     patch({
       productId,
       productData: {

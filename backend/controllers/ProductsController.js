@@ -1,9 +1,9 @@
 const Product = require('../models/ProductModel');
 const fs = require('fs');
-//const multerPatch = require('../middleware/multerPatch');
+const multer = require('multer');
 const multerSave = require('../middleware/multerSave');
 
-const getProducts = (req, res, next) => {
+exports.getProducts = (req, res, next) => {
   const page = req.query.page || 1;
   const perpage = req.query.perpage || 10;
 
@@ -19,7 +19,7 @@ const getProducts = (req, res, next) => {
     .then(count => res.json({ products, maxPages: Math.ceil(count / perpage) }))
     .catch(next);
 };
-const getMyProducts = (req, res, next) => {
+exports.getMyProducts = (req, res, next) => {
   const page = req.query.page || 1;
   const perpage = req.query.perpage || 10;
 
@@ -35,7 +35,7 @@ const getMyProducts = (req, res, next) => {
     .then(count => res.json({ products, maxPages: Math.ceil(count / perpage) }))
     .catch(next);
 };
-const getProduct = (req, res, next) => {
+exports.getProduct = (req, res, next) => {
   Product.findById(req.params.productId)
     .then(product => {
       if (!product) {
@@ -45,7 +45,7 @@ const getProduct = (req, res, next) => {
     })
     .catch(next);
 };
-const deleteProduct = (req, res, next) => {
+exports.deleteProduct = (req, res, next) => {
   Product.findById(req.params.productId)
     .then(product => {
       if (!product) {
@@ -57,15 +57,12 @@ const deleteProduct = (req, res, next) => {
       return Product.findByIdAndDelete(req.params.productId);
     })
     .then(product => {
-      fs.unlinkSync(process.cwd() + '/public/images/' + product.image);
-      if (err) {
-        return next(err);
-      }
+      fs.unlink(process.cwd() + '/public/images/' + product.image, () => {});
       res.json(product);
     })
     .catch(next);
 };
-const patchProduct = [
+exports.patchProduct = [
   (req, res, next) => {
     Product.findById(req.params.productId).then(product => {
       if (!product) {
@@ -86,19 +83,43 @@ const patchProduct = [
   },
   (req, res, next) => {
     let image = null;
+    req.body.price = +req.body.price;
+    const { name, price, description } = req.body;
     if (req.file) {
       image = req.file.filename;
+    } else {
+      // (if multer middleware was skipped and data hasn't been valuidated)
+      if (!name || !price || !description || typeof price !== 'number') {
+        throw Error('Invalid data');
+      }
+      if (name.length > 24) {
+        throw Error('Name length must be less than 24 symbols');
+      }
+      if (price > 100000 || price < 1) {
+        throw Error('Price must be less than 100.000 and more than 1');
+      }
+      if (description.length > 1000) {
+        throw Error('Description length must be less than 1000 symbols');
+      }
+      Product.findOne({ name })
+        .then(product => {
+          if (product && req.params.productId !== product._id.toString()) {
+            throw Error('Product with this name already exists');
+          }
+        })
+        .catch(next);
     }
-    const { name, price, description } = req.body;
-    console.log(price);
     Product.findById(req.params.productId)
       .then(product => {
         if (image) {
-          fs.unlinkSync(process.cwd() + '/public/images/' + product.image);
+          fs.unlink(
+            process.cwd() + '/public/images/' + product.image,
+            () => {}
+          );
           image && (product.image = image);
         }
         product.name = name;
-        product.price = parseFloat(price).toFixed(2);
+        product.price = price.toFixed(2);
         product.description = description;
         return product.save();
       })
@@ -107,7 +128,7 @@ const patchProduct = [
   }
 ];
 
-const postProduct = [
+exports.postProduct = [
   (req, res, next) => {
     multerSave(req, res, next, err => {
       if (err) {
@@ -134,12 +155,3 @@ const postProduct = [
       .catch(next);
   }
 ];
-
-module.exports = {
-  getProduct,
-  getProducts,
-  postProduct,
-  getMyProducts,
-  deleteProduct,
-  patchProduct
-};

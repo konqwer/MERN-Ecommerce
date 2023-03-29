@@ -4,7 +4,8 @@ const {
   postSignup,
   postLogin,
   patchCart,
-  resetCart
+  resetCart,
+  getCart
 } = require('../controllers/UserController');
 const requireAuth = require('../middleware/requireAuth');
 
@@ -15,5 +16,6 @@ router.post('/login', postLogin);
 router.post('/cart/reset', requireAuth, resetCart);
 router.patch('/cart/:productId', requireAuth, patchCart);
 router.get('/', requireAuth, (req, res) => res.json(req.user));
+router.get('/cart', requireAuth, getCart);
 
 module.exports = router;

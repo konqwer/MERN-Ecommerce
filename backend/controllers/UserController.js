@@ -88,3 +88,9 @@ exports.resetCart = (req, res, next) => {
     .then(user => res.json(user))
     .catch(next);
 };
+exports.getCart = (req, res, next) => {
+  req.user
+    .getCart()
+    .then(cart => res.json(cart))
+    .catch(next);
+};

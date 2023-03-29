@@ -13,9 +13,12 @@ const usePatchProduct = () => {
     isLoading
   } = useMutation(
     async ({ productId, productData }) => {
+      console.log(productData);
       const formData = new FormData();
       Object.entries(productData).forEach(entry => {
-        formData.append(entry[0], entry[1]);
+        if (entry[1]) {
+          formData.append(entry[0], entry[1]);
+        }
       });
       const res = await fetch(apiUrl + 'api/products/' + productId, {
         headers: {
@@ -25,6 +28,7 @@ const usePatchProduct = () => {
         body: formData
       });
       const json = await res.json();
+      console.log(json);
       if (!res.ok) {
         throw Error(json.message);
       }

@@ -25,7 +25,11 @@ const fileFilter = (req, file, cb) => {
   }
   Product.findOne({ name })
     .then(product => {
-      if (!req.params.productId && product) {
+      if (
+        product &&
+        (!req.params.productId ||
+          req.params.productId !== product._id.toString())
+      ) {
         throw Error('Product with this name already exists');
       }
       const allowedFileTypes = ['image/jpeg', 'image/jpg', 'image/png'];

@@ -7,28 +7,26 @@ import Button from '../UI/Button';
 import Image from '../UI/Image';
 
 const CartItem = ({ cartItem }) => {
-  const { product, isLoading } = useProduct(cartItem.productId);
+  console.log(cartItem);
   const { patch } = usePatchCart();
-  const [quantity, setQuantity] = useState(cartItem.quantity);
+  const [quantity, setQuantity] = useState(0);
 
   useEffect(() => {
     setQuantity(cartItem.quantity);
   }, [cartItem]);
-
-  if (isLoading) {
-    return;
-  }
-
   return (
     <div className="rounded-sm border border-slate-300 p-1 text-lg">
       <div className="mb-2 flex w-full items-center gap-2">
         <div className="w-16">
-          <Image className="w-full" src={apiUrl + 'images/' + product.image} />
+          <Image
+            className="w-full"
+            src={apiUrl + 'images/' + cartItem.product.image}
+          />
         </div>
 
         <div>
-          <h1 className="font-semibold">{product.name}</h1>
-          <h1>${(product.price * cartItem.quantity).toFixed(2)}</h1>
+          <h1 className="font-semibold">{cartItem.product.name}</h1>
+          <h1>${(cartItem.product.price * cartItem.quantity).toFixed(2)}</h1>
         </div>
       </div>
       <div className="flex w-full items-center justify-between">
@@ -36,7 +34,7 @@ const CartItem = ({ cartItem }) => {
           <button
             className="w-8"
             onClick={() =>
-              patch({ productId: cartItem.productId, quantity: -1 })
+              patch({ productId: cartItem.product._id, quantity: -1 })
             }
           >
             -
@@ -45,7 +43,7 @@ const CartItem = ({ cartItem }) => {
             onSubmit={e => {
               e.preventDefault();
               patch({
-                productId: cartItem.productId,
+                productId: cartItem.product._id,
                 quantity: quantity - cartItem.quantity
               });
             }}
@@ -58,7 +56,7 @@ const CartItem = ({ cartItem }) => {
           </form>
           <button
             className="w-8"
-            onClick={() => patch({ productId: cartItem.productId })}
+            onClick={() => patch({ productId: cartItem.product._id })}
           >
             +
           </button>
