@@ -16,6 +16,11 @@ PORT=...
 MONGO_URI=...
 SECRET=...
 ```
+change constant apiUrl in frontend
+```js
+const apiUrl = 'Your api url';
+export default apiUrl;
+```
 
 ## Usage
 
